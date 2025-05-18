@@ -1,19 +1,18 @@
+const express = require("express");
+const app = express();
+
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config(); // Carga .env solo en local
+  require("dotenv").config();
 }
 
-const express = require("express");
+// Conexión Mongo
 const connectDB = require("./db");
-const registrosRoutes = require("./routes/registros");
-
-const app = express();
 connectDB();
 
 app.use(express.json());
-app.use("/registros", registrosRoutes);
 
-const PORT = process.env.PORT || 3000;
-const ENV = process.env.NODE_ENV || "development";
+const registrosRoutes = require("./routes/registros");
+app.use("/registros", registrosRoutes);
 
 app.get("/", (_req, res) => {
   res.json({
@@ -23,7 +22,10 @@ app.get("/", (_req, res) => {
   });
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ API levantada en modo "${ENV}"`);
+  console.log(
+    `✅ API levantada en modo "${process.env.NODE_ENV || "development"}"`
+  );
   console.log(`📡 Escuchando en puerto: ${PORT}`);
 });

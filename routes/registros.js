@@ -9,6 +9,7 @@ router.use(validarAppKeyToken);
 // POST /registros
 router.post("/", async (req, res) => {
   try {
+    console.log("REQ Body:", req.body); // debug
     const nuevo = new Registro(req.body);
     await nuevo.save();
     res.status(201).json(nuevo);
