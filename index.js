@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 
+// Cargar variables de entorno en desarrollo
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -9,11 +10,14 @@ if (process.env.NODE_ENV !== "production") {
 const connectDB = require("./db");
 connectDB();
 
+// 👇 Esto va antes de usar las rutas
 app.use(express.json());
 
+// Rutas protegidas
 const registrosRoutes = require("./routes/registros");
 app.use("/registros", registrosRoutes);
 
+// Endpoint raíz para monitoreo
 app.get("/", (_req, res) => {
   res.json({
     status: "✅ API funcionando correctamente",
@@ -22,6 +26,7 @@ app.get("/", (_req, res) => {
   });
 });
 
+// Lanzar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(
