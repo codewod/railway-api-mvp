@@ -1,4 +1,7 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config(); // Carga .env solo en local
+}
+
 const express = require("express");
 const connectDB = require("./db");
 const registrosRoutes = require("./routes/registros");
